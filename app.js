@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const app = express();
 const port = 3000;
 
@@ -9,8 +10,17 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type"],
+    credentials: true,
+  })
+);
+
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.json({ message: "Hello, World!" });
 });
 
 app.listen(port, () => {
