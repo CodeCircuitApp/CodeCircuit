@@ -25,4 +25,16 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.get("/", async (req, res) => {
+  const { db } = req.app.locals;
+
+  try {
+    const events = await db.collection("events").find().toArray();
+
+    res.json(events);
+  } catch (error) {
+    res.status(500).json({ error: error.toString() });
+  }
+});
+
 exports.eventsRouter = router;
