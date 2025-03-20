@@ -34,13 +34,15 @@ const eventSchema = Joi.object({
   imageUrl: Joi.string().uri().required(),
   logoUrl: Joi.string().uri().required(),
   // Eligibility Criteria Information
-  educationStatus: Joi.string()
-    .valid(
-      "nonStudent",
-      "primarySchoolStudent",
-      "secondarySchoolStudent",
-      "higherEducationStudent",
-      "postGraduate"
+  educationStatus: Joi.array()
+    .items(
+      Joi.string().valid(
+        "nonStudent",
+        "primarySchoolStudent",
+        "secondarySchoolStudent",
+        "higherEducationStudent",
+        "postGraduate"
+      )
     )
     .required(),
   minimumAge: Joi.number().integer().min(0).required(),
