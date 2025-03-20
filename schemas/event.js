@@ -5,8 +5,8 @@ const eventSchema = Joi.object({
   name: Joi.string().required(),
   date: Joi.string().isoDate().required(),
   technology: Joi.array().items(Joi.string()).required(),
-  eventLocationType: Joi.string().valid("online", "local", "hybrid").required(),
-  eventType: Joi.string()
+  locationType: Joi.string().valid("online", "local", "hybrid").required(),
+  type: Joi.string()
     .valid("hackathon", "workshop", "conference", "other")
     .required(),
   description: Joi.string().required(),
