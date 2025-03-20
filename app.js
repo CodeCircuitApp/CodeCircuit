@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const { MongoClient } = require("mongodb");
+const { eventsRouter } = require("./routes/events");
 
 const app = express();
 const port = 3000;
@@ -11,11 +12,11 @@ const client = new MongoClient(process.env.MONGO_URI);
 async function run() {
   try {
     await client.connect();
-    await client.db("admin").command({ ping: 1 });
+    app.locals.db = client.db("code_circuit");
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
-  } finally {
+  } catch {
     await client.close();
   }
 }
@@ -42,6 +43,8 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.json({ message: "Hello, World!" });
 });
+
+app.use("/events", eventsRouter);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
