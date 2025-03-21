@@ -9,7 +9,7 @@ const port = 3000;
 
 const client = new MongoClient(process.env.MONGO_URI);
 
-async function run() {
+async function connect() {
   try {
     await client.connect();
     app.locals.db = client.db("code_circuit");
@@ -20,7 +20,7 @@ async function run() {
     await client.close();
   }
 }
-run().catch(console.dir);
+connect().catch(console.dir);
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
