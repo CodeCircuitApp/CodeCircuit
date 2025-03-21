@@ -27,9 +27,18 @@ router.post("/", async (req, res) => {
 
 router.get("/", async (req, res) => {
   const { db } = req.app.locals;
+  const size = parseInt(req.query.size) || 15;
+  const page = parseInt(req.query.page) || 1;
 
   try {
-    const events = await db.collection("events").find().toArray();
+    const skip = (page - 1) * size;
+
+    const events = await db
+      .collection("events")
+      .find()
+      .skip(skip)
+      .limit(size)
+      .toArray();
 
     res.json(events);
   } catch (error) {
