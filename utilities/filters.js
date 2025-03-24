@@ -50,3 +50,5 @@ function generateFilters(query) {
 
   return filters;
 }
+
+module.exports = { generateFilters };
