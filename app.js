@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const { MongoClient } = require("mongodb");
 const { eventsRouter } = require("./routes/events");
+const { error } = require("./schemas/event");
 
 const app = express();
 const port = 3000;
@@ -10,6 +11,7 @@ const port = 3000;
 const client = new MongoClient(process.env.MONGO_URI);
 
 async function connect() {
+  console.log("Connecting to MongoDB...");
   try {
     await client.connect();
     app.locals.db = client.db("code_circuit");
@@ -17,6 +19,7 @@ async function connect() {
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
   } catch {
+    console.log("Failed to connect to MongoDB!");
     await client.close();
   }
 }
