@@ -1,5 +1,7 @@
 const express = require("express");
 const eventSchema = require("../schemas/event");
+const querySchema = require("../schemas/query");
+const { generateFilters } = require("../utilities/filters");
 
 const router = express.Router();
 
@@ -33,9 +35,29 @@ router.get("/", async (req, res) => {
   try {
     const skip = (page - 1) * size;
 
+    if (req.query.type && typeof req.query.type === "string") {
+      req.query.type = req.query.type.split(",");
+    }
+    if (req.query.locationType && typeof req.query.locationType === "string") {
+      req.query.locationType = req.query.locationType.split(",");
+    }
+    if (
+      req.query.educationStatus &&
+      typeof req.query.educationStatus === "string"
+    ) {
+      req.query.educationStatus = req.query.educationStatus.split(",");
+    }
+
+    const { error, value } = querySchema.validate(req.query);
+    if (error) {
+      return res.status(400).json({ error: error.toString() });
+    }
+
+    const filters = generateFilters(value);
+
     const events = await db
       .collection("events")
-      .find()
+      .find(filters)
       .skip(skip)
       .limit(size)
       .toArray();
