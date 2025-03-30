@@ -5,7 +5,7 @@ const querySchema = Joi.object({
     .items(Joi.string().valid("hackathon", "workshop", "conference", "other"))
     .optional(),
   locationType: Joi.array()
-    .items(Joi.string().valid("online", "local", "hybrid"))
+    .items(Joi.string().valid("remote", "local", "hybrid"))
     .optional(),
   educationStatus: Joi.array()
     .items(
