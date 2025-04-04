@@ -3,7 +3,6 @@ const express = require("express");
 const cors = require("cors");
 const { MongoClient } = require("mongodb");
 const { eventsRouter } = require("./routes/events");
-const { error } = require("./schemas/event");
 
 const app = express();
 const port = 3000;
